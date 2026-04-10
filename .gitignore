@@ -23,3 +23,7 @@ CACHEDIR.TAG
 .idea/
 .DS_Store
 Thumbs.db
+
+
+
+pyproject.toml
