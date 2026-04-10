@@ -1,10 +1,25 @@
-# Python-generated files
+# --- Python Specific ---
+# Bỏ qua các file bytecode đã biên dịch
 __pycache__/
-*.py[oc]
-build/
-dist/
-wheels/
-*.egg-info
+*.py[cod]
+*$py.class
 
-# Virtual environments
-.venv
+# --- Virtual Environment ---
+# Không đẩy môi trường ảo lên Git
+.venv/
+venv/
+ENV/
+pyvenv.cfg
+
+# --- Package Manager & Tools ---
+# Loại bỏ các file log và tag không cần thiết
+.lock
+CACHEDIR.TAG
+.python-version
+
+# --- IDEs & OS Junk ---
+# Các file cấu hình của VS Code hoặc hệ điều hành
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
