@@ -8,6 +8,8 @@ def format_grid(puzzle, solved_grid):
     Quy ước từ PDF:
     - Ràng buộc dọc: 1 là Top < Bottom (dấu ^), -1 là Top > Bottom (dấu v)
     - Ràng buộc ngang: 1 là Left < Right (dấu <), -1 là Left > Right (dấu >)
+
+    
     """
     N = puzzle.N
     lines = []
