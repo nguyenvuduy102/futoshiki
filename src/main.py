@@ -8,10 +8,10 @@ from core.output_formatter import write_output
 
 # Import các solver (Hiện tại mới có Backtracking, ta sẽ mở khóa các module khác sau)
 from solvers.backtracking import BacktrackingSolver
-# from solvers.brute_force import BruteForceSolver
+from solvers.brute_force import BruteForceSolver
 from solvers.forward_chaining import ForwardChainingSolver
-# from solvers.backward_chaining import BackwardChainingSolver
-# from solvers.astar import AStarSolver
+from solvers.backward_chaining import BackwardChainingSolver
+from solvers.astar import AStarSolver
 
 def run_solver(puzzle, algorithm_choice):
     """
@@ -21,18 +21,18 @@ def run_solver(puzzle, algorithm_choice):
     if algorithm_choice == '1':
         solver = BacktrackingSolver(puzzle)
         algo_name = "Backtracking"
-    # elif algorithm_choice == '2':
-    #     solver = BruteForceSolver(puzzle)
-    #     algo_name = "Brute Force"
+    elif algorithm_choice == '2':
+        solver = BruteForceSolver(puzzle)
+        algo_name = "Brute Force"
     elif algorithm_choice == '3':
         solver = ForwardChainingSolver(puzzle)
         algo_name = "Forward Chaining"
-    # elif algorithm_choice == '4':
-    #     solver = BackwardChainingSolver(puzzle)
-    #     algo_name = "Backward Chaining (SLD)"
-    # elif algorithm_choice == '5':
-    #     solver = AStarSolver(puzzle)
-    #     algo_name = "A* Search"
+    elif algorithm_choice == '4':
+        solver = BackwardChainingSolver(puzzle)
+        algo_name = "Backward Chaining (SLD)"
+    elif algorithm_choice == '5':
+        solver = AStarSolver(puzzle)
+        algo_name = "A* Search"
     else:
         print("[-] Lựa chọn không hợp lệ hoặc thuật toán chưa được cài đặt!")
         return None, 0, 0, ""
@@ -107,10 +107,10 @@ def main():
         elif choice in ['1', '2']:
             print("\n--- DANH SÁCH THUẬT TOÁN ---")
             print("1. Backtracking (Baseline)")
-            print("2. Brute Force (Đang khóa)")
+            print("2. Brute Force ")
             print("3. Forward Chaining ")
-            print("4. Backward Chaining (Đang khóa)")
-            print("5. A* Search (Đang khóa)")
+            print("4. Backward Chaining ")
+            print("5. A* Search")
             algo_choice = input("Chọn thuật toán (1-5): ").strip()
             
             # Lấy danh sách file input và sắp xếp theo tên

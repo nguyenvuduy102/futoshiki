@@ -90,7 +90,7 @@ def parse_input(file_path):
 
 # Khối code test nhanh: Chỉ chạy khi execute trực tiếp file này
 # if __name__ == "__main__":
-#     # Đại Vương có thể tạo nhanh file input-01.txt cùng thư mục để test
+#     #  có thể tạo nhanh file input-01.txt cùng thư mục để test
 #     test_file = "Inputs/input-01.txt"
 #     try:
 #         puzzle = parse_input(test_file)
