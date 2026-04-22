@@ -142,10 +142,13 @@ class ForwardChainingSolver:
             # BƯỚC 2: AC-3 - Arc Consistency cho ràng buộc bất phương trình
             # Tương ứng tiên đề A4 (horizontal & vertical inequality)
             # -----------------------------------------------------------------
-            if not self._ac3_propagate(domains):
+            ac3_changed, ok = self._ac3_propagate(domains)
+            if not ok:
                 return False
-            # Nếu AC-3 làm thay đổi domain, tiếp tục vòng lặp
-            # (biến changed sẽ được cập nhật trong _ac3_propagate qua side-effect)
+            # Nếu AC-3 thu hẹp được domain, tiếp tục vòng lặp để
+            # Bước 1 có thể lan truyền thêm từ các ô vừa được xác định.
+            if ac3_changed:
+                changed = True
 
         return True
 
@@ -159,11 +162,13 @@ class ForwardChainingSolver:
         - Nếu rel == '>': loại tất cả v1 khỏi domain[cell1] mà không tồn tại
           v2 trong domain[cell2] thỏa v1 > v2.
 
-        Trả về False nếu phát hiện domain rỗng (contradiction).
-
-        Nó duy trì một hàng đợi (queue) chứa các cặp ô có ràng buộc. Thuật toán kiểm tra và loại bỏ các giá trị không thỏa mãn điều kiện lớn/nhỏ. Nếu việc loại bỏ làm thay đổi domain của một ô, nó sẽ đẩy các ô liên quan vào lại hàng đợi để kiểm tra tiếp.
+        Trả về tuple (changed, ok):
+          - changed: True nếu có ít nhất 1 giá trị bị loại khỏi domain nào đó.
+          - ok: False nếu phát hiện domain rỗng (contradiction).
         """
         from collections import deque
+
+        any_changed = False
 
         # Khởi tạo queue với tất cả arc
         queue = deque()
@@ -193,15 +198,16 @@ class ForwardChainingSolver:
                 domains[r1][c1] -= to_remove
                 self.inferences_made += len(to_remove)
                 self.fc_propagations += 1
+                any_changed = True
 
                 if len(domains[r1][c1]) == 0:
-                    return False  # Contradiction
+                    return True, False  # changed=True, contradiction
 
                 # Thêm lại tất cả arc liên quan đến (r1,c1) vào queue
                 for (nbr2, rel2) in self.arcs[(r1, c1)]:
                     queue.append(((r1, c1), nbr2, rel2))
 
-        return True
+        return any_changed, True
 
     # =========================================================================
     # KIỂM TRA HỢP LỆ (dùng khi backtrack)
