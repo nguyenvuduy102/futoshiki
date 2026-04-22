@@ -66,20 +66,20 @@ class FutoshikiGUI(QMainWindow):
         control_layout.addSpacing(30)
 
         # Buttons
-        self.btn_solve = self._create_button("⚡ AI GIẢI NGAY", "#27ae60", "#2ecc71", 60)
+        self.btn_solve = self._create_button("AI GIẢI NGAY", "#27ae60", "#2ecc71", 60)
         self.btn_solve.clicked.connect(self.start_solving)
         control_layout.addWidget(self.btn_solve)
 
-        self.btn_stop = self._create_button("🛑 DỪNG LẠI", "#e74c3c", "#c0392b", 60)
+        self.btn_stop = self._create_button("DỪNG LẠI", "#e74c3c", "#c0392b", 60)
         self.btn_stop.clicked.connect(self.stop_solving)
         self.btn_stop.hide() # Ẩn lúc mới mở app
         control_layout.addWidget(self.btn_stop)
 
-        self.btn_reset = self._create_button("🔄 Chơi Lại / Reset", "#e67e22", "#f39c12", 40)
+        self.btn_reset = self._create_button("Chơi Lại / Reset", "#e67e22", "#f39c12", 40)
         self.btn_reset.clicked.connect(self.load_selected_level)
         control_layout.addWidget(self.btn_reset)
         
-        self.btn_exit = self._create_button("❌ Thoát Game", "#c0392b", "#e74c3c", 40)
+        self.btn_exit = self._create_button("Thoát Game", "#c0392b", "#e74c3c", 40)
         self.btn_exit.clicked.connect(self.close)
         control_layout.addWidget(self.btn_exit)
 
@@ -131,7 +131,7 @@ class FutoshikiGUI(QMainWindow):
         if hasattr(self, 'thread') and self.thread.isRunning():
             self.thread.terminate() # Ngắt luồng AI ngay lập tức
             self.thread.wait()      # Đợi luồng dọn dẹp xong
-            self.status_label.setText("🛑 ĐÃ HỦY: đã dừng AI.")
+            self.status_label.setText("ĐÃ HỦY: đã dừng AI.")
             self._reset_ui_after_solve()
 
     def load_selected_level(self):
@@ -259,7 +259,7 @@ class FutoshikiGUI(QMainWindow):
         self.combo_algo.setEnabled(False)
         self.btn_reset.setEnabled(False)
         
-        self.status_label.setText("🚀 AI đang tính toán, vui lòng đợi...")
+        self.status_label.setText("AI đang tính toán, vui lòng đợi...")
 
   
         QApplication.processEvents()
@@ -293,10 +293,10 @@ class FutoshikiGUI(QMainWindow):
                     self.cell_widgets[(r, c)].setText(str(result_grid[r][c]))
                     self.cell_widgets[(r, c)].setStyleSheet("background-color: #e8f8f5; border: 2px solid #2ecc71; border-radius: 5px; color: #27ae60;")
                     self.cell_widgets[(r, c)].blockSignals(False)
-            self.status_label.setText(f"✅ XONG!\n⏱ {exec_time:.4f}s\n🧩 {nodes} nodes")
+            self.status_label.setText(f"XONG!\n⏱ {exec_time:.4f}s\n🧩 {nodes} nodes")
         else:
             if "ĐÃ HỦY" not in self.status_label.text():
-                self.status_label.setText("❌ Bế tắc! Không tìm thấy lời giải.")
+                self.status_label.setText("Bế tắc! Không tìm thấy lời giải.")
         
         self._reset_ui_after_solve()
 
