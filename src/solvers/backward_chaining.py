@@ -22,7 +22,7 @@ class BackwardChainingSolver:
         self.N = puzzle.N
         self.grid = copy.deepcopy(puzzle.grid)
         self.nodes_expanded = 0
-
+        self.inferences_made = 0  
         # Tập hợp các mục tiêu (Goals) cầns chứng minh: là danh sách các ô trống.
         self.goals = self._extract_goals()
 
@@ -66,6 +66,7 @@ class BackwardChainingSolver:
 
     def prove_IneqSafe(self, r, c, v):
         """Chứng minh v thỏa mãn tất cả các ràng buộc bất phương trình xung quanh."""
+
         # 1. Ràng buộc bên trái (Left)
         if c > 0 and self.grid[r][c-1] != 0:
             con = self.puzzle.horizontal_constraints[r][c-1]
@@ -101,6 +102,7 @@ class BackwardChainingSolver:
     # =====================================================================
 
     def ask_goal(self, goal_index):
+        
         """
         Quá trình hỏi (Querying): Cố gắng giải quyết (resolve) Goal hiện tại.
         Nếu thành công, nó sẽ tiếp tục SLD Resolution với các Goal tiếp theo.
@@ -113,7 +115,8 @@ class BackwardChainingSolver:
 
         # Đặt câu hỏi truy vấn: Val(r, c, ?v) - v có thể là các giá trị từ 1 đến N
         for v in range(1, self.N + 1):
-            
+
+            self.inferences_made += 1
             # Áp dụng suy diễn lùi để chứng minh Val(r, c, v)
             if self.prove_Val(r, c, v):
                 

@@ -63,6 +63,7 @@ class BruteForceSolver:
         return True
 
     def _solve_recursive(self, index):
+
         """
         Đệ quy sinh (Generate) các tổ hợp số cho bảng.
         - index: Vị trí của ô trống hiện tại trong danh sách self.empty_cells

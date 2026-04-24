@@ -2,7 +2,6 @@ import time
 import os
 import copy
 
-# Tùy thuộc vào cách chạy code, block try-except này giúp import đúng module
 try:
     from core.parser import parse_input
     from core.output_formatter import format_grid
@@ -22,7 +21,7 @@ class BacktrackingSolver:
         self.N = puzzle.N
         # Tạo một bản sao độc lập của lưới (tránh ghi đè lên dữ liệu gốc)
         self.grid = copy.deepcopy(puzzle.grid)
-        self.nodes_expanded = 0 # Bộ đếm số lần gán giá trị (dùng để vẽ biểu đồ báo cáo)
+        self.nodes_expanded = 0 
 
     def is_safe(self, r, c, v):
         """

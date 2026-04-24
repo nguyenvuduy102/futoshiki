@@ -1,6 +1,7 @@
 import os
 import time
 import glob
+import tracemalloc
 
 # Import các module core
 from core.parser import parse_input
@@ -39,17 +40,23 @@ def run_solver(puzzle, algorithm_choice):
 
     print(f"\n[*] Đang giải bằng thuật toán: {algo_name}...")
     
+    tracemalloc.start()
     start_time = time.time()
+
     is_solved = solver.solve()
     end_time = time.time()
+    curent_mem, peak_mem = tracemalloc.get_traced_memory()
     
     exec_time = end_time - start_time
+    memory_kb = peak_mem / 1024
+
     nodes = getattr(solver, 'nodes_expanded', 0) # Lấy số node mở rộng nếu solver có hỗ trợ
+    inferences = getattr(solver, 'inferences_made', 0)
     
     if is_solved:
-        return solver.grid, exec_time, nodes, algo_name
+        return solver.grid, exec_time, nodes, inferences, memory_kb, algo_name
     else:
-        return None, exec_time, nodes, algo_name
+        return None, exec_time, nodes, inferences, memory_kb, algo_name
 
 def process_file(filepath, algorithm_choice):
     """
@@ -64,17 +71,20 @@ def process_file(filepath, algorithm_choice):
         puzzle = parse_input(filepath)
         print(f"Kích thước lưới: {puzzle.N}x{puzzle.N}")
         
-        solved_grid, exec_time, nodes, algo_name = run_solver(puzzle, algorithm_choice)
+        solved_grid, exec_time, nodes, inferences, memory_kb, algo_name = run_solver(puzzle, algorithm_choice)
         
         if solved_grid:
             print(f"\n[+] TÌM THẤY LỜI GIẢI ({filename}):")
             # Ghi ra file và lấy chuỗi định dạng
             output_path, formatted_result = write_output(puzzle, solved_grid, filepath)
-            print(formatted_result)
+            # print(formatted_result)
             
             print(f"\n[Thống kê - {algo_name}]")
             print(f"Thời gian chạy : {exec_time:.6f} giây")
+            print(f"Bộ nhớ tiêu thụ: {memory_kb: .2f} KB")
             print(f"Số node mở rộng: {nodes} nodes")
+            if inferences > 0:
+                print(f"Số phép suy diễn: {inferences} lần")
             print(f"Đã lưu kết quả : {output_path}")
         else:
             if algo_name:
