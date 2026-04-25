@@ -40,13 +40,17 @@ def run_solver(puzzle, algorithm_choice):
 
     print(f"\n[*] Đang giải bằng thuật toán: {algo_name}...")
     
-    tracemalloc.start()
-    start_time = time.time()
+    tracemalloc.stop()        # reset nếu đang chạy từ trước
+    tracemalloc.clear_traces()
+    tracemalloc.start()       # bắt đầu đo sạch
 
+    start_time = time.time()
     is_solved = solver.solve()
     end_time = time.time()
-    curent_mem, peak_mem = tracemalloc.get_traced_memory()
-    
+
+    current_mem, peak_mem = tracemalloc.get_traced_memory()
+    tracemalloc.stop()        # ← THÊM DÒNG NÀY để dừng và reset
+
     exec_time = end_time - start_time
     memory_kb = peak_mem / 1024
 
